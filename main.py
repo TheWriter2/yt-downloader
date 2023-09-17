@@ -17,24 +17,31 @@ except:
 class VideoDownloader:
     def __init__(self):
         
-        # Video and audio
-        self.Downloader = yt_dlp.YoutubeDL({
-            "format":"mp4/bv*[height<=480]+ba/b[height<=480] / wv*+ba/w",
+        self.videoDict = {
+            "format":"mp4",
+            #"format-sort":"+size,+br,+res,+fps",
             "ignoreerrors": True
-        })
+        }
 
-        # Audio only
-        self.Downloader_MP3 = yt_dlp.YoutubeDL({
-            "format":"mp3/bestaudio/best",
+        self.audioDict = {
+            "format":"mp3",
             "postprocessors": [{  # Extract audio using ffmpeg
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
             }],
             "ignoreerrors": True
-        })
+        }
+
+        # Video and audio
+        self.Downloader = yt_dlp.YoutubeDL(self.videoDict)
+
+        # Audio only
+        self.Downloader_MP3 = yt_dlp.YoutubeDL(self.audioDict)
 
         # Flags
         self.downloadMP3 = False
+        self.videoFormats = ["flv", "m4a", "mp4", "webm"]
+        self.audioFormats = ["3gp", "aac", "mp3", "ogg", "wav"]
     def mainmenu(self):
         choosing = choice.inputchoice(["Download Video", "Download Video (audio only)", "Exit"], "Welcome! What do you want to do?")
 
@@ -58,9 +65,19 @@ class VideoDownloader:
             os.chdir("./{}/".format(playlist_info.get("title")))
 
         if self.downloadMP3 == False:
+            choosing = choice.inputchoice(self.videoFormats, "Select a format:")
+
+            self.videoDict["format"] = self.videoFormats[choosing - 1] + "/b*"
+            self.Downloader = yt_dlp.YoutubeDL(self.videoDict)
+
             self.Downloader.cache.remove()
             self.Downloader.download([link])
         else:
+            choosing = choice.inputchoice(self.audioFormats, "Select a format:")
+
+            self.audioDict["format"] = self.audioFormats[choosing - 1] + "/b*"
+            self.Downloader_MP3 = yt_dlp.YoutubeDL(self.audioDict)
+
             self.Downloader_MP3.cache.remove()
             self.Downloader_MP3.download([link])
         
