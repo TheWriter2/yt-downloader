@@ -16,7 +16,8 @@ except:
 # Main class
 class VideoDownloader:
     def __init__(self):
-        
+
+        # Video/Audio data        
         self.videoDict = {
             "format":"mp4",
             #"format-sort":"+size,+br,+res,+fps",
@@ -57,6 +58,7 @@ class VideoDownloader:
     def download(self):
         link = input("Copy & paste the URL of the youtube video you want to download:\n")
         
+        # Playlist folder
         if link[24:32] == "playlist":
             self.Downloader.cache.remove()
             playlist_info = self.Downloader.extract_info(link, download=False)
@@ -64,6 +66,7 @@ class VideoDownloader:
             os.mkdir(playlist_info.get("title"))
             os.chdir("./{}/".format(playlist_info.get("title")))
 
+        # Downloading video
         if self.downloadMP3 == False:
             choosing = choice.inputchoice(self.videoFormats, "Select a format:")
 
