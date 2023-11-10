@@ -3,5 +3,21 @@ import os
 
 saveLocation = ""
 
+downAudioOnly = False
+downVideoFormat = {
+    "cookies-from-browser":"chrome",
+    "format":"bv*[ext=mp4]+ba",
+    "format-sort":""
+}
+downAudioFormat = {
+    "cookies-from-browser":"chrome",
+    "format":"ba[ext=mp3]",
+    "format-sort":""
+}
+
 def setSaveLocation(newSaveLocation):
-    pass
+    if not os.path.isdir(newSaveLocation):
+        return "1: Not a directory"
+    
+    saveLocation = newSaveLocation
+    return "0"

@@ -1,7 +1,8 @@
 import PySimpleGUI as sg
 
 layouts = {
-    "main":[]
+    "main":[],
+    "sel"
 }
 
 layouts["main"] = [
