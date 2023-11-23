@@ -7,12 +7,14 @@ downAudioOnly = False
 downVideoFormat = {
     "cookies-from-browser":"chrome",
     "format":"bv*[ext=mp4]+ba",
-    "format-sort":""
+    "format-sort":"",
+    "outtmpl":"%(title)s.%(ext)s"
 }
 downAudioFormat = {
     "cookies-from-browser":"chrome",
     "format":"ba[ext=mp3]",
-    "format-sort":""
+    "format-sort":"",
+    "outtmpl":"%(title)s.%(ext)s"
 }
 
 def setSaveLocation(newSaveLocation):
@@ -21,3 +23,7 @@ def setSaveLocation(newSaveLocation):
     
     saveLocation = newSaveLocation
     return "0"
+
+def download(format, url):
+    with yt_dlp.YoutubeDL(format) as ydl:
+        ydl.download([url])
